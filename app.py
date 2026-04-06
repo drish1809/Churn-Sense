@@ -1,9 +1,3 @@
-"""
-Customer Churn Prediction — Streamlit App (v2 Redesign)
-Warm amber + forest green aesthetic.
-Auto-trains on first run — no subprocess, fully inline.
-"""
-
 import os
 import pickle
 import pandas as pd
@@ -55,7 +49,6 @@ def train_and_save():
     with open("onehot_encoder_geo.pkl",   "wb") as f: pickle.dump(ohe_geo,   f)
 
 
-# Auto-train on first boot if .pkl files are absent
 if not os.path.exists("model.pkl"):
     with st.spinner("First-time setup: training the model (~30 sec)..."):
         train_and_save()
@@ -412,4 +405,4 @@ if run:
 
 # ── Footer ─────────────────────────────────────────────────────────────────────
 st.markdown("<hr>", unsafe_allow_html=True)
-st.markdown('<div class="footer">CHURNSENSE · ANN · SCIKIT-LEARN · NO TENSORFLOW</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">CHURNSENSE · ANN · SCIKIT-LEARN </div>', unsafe_allow_html=True)
