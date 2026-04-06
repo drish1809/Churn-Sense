@@ -3,9 +3,16 @@ Customer Churn Prediction — Streamlit App (v2 Redesign)
 Warm amber + forest green aesthetic. Run train.py first.
 """
 
+import os
+import subprocess
 import streamlit as st
 import pandas as pd
 import pickle
+
+# Auto-train if model files are missing (runs on first Streamlit Cloud boot)
+if not os.path.exists("model.pkl"):
+    with st.spinner("First-time setup: training the model, please wait..."):
+        subprocess.run(["python", "train.py"], check=True)
 
 st.set_page_config(
     page_title="ChurnSense",
