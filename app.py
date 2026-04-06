@@ -1,18 +1,65 @@
 """
 Customer Churn Prediction — Streamlit App (v2 Redesign)
-Warm amber + forest green aesthetic. Run train.py first.
+Warm amber + forest green aesthetic.
+Auto-trains on first run — no subprocess, fully inline.
 """
 
 import os
-import subprocess
-import streamlit as st
-import pandas as pd
 import pickle
+import pandas as pd
+import numpy as np
+import streamlit as st
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+from sklearn.neural_network import MLPClassifier
 
-# Auto-train if model files are missing (runs on first Streamlit Cloud boot)
+
+def train_and_save():
+    """Train the ANN and save all artefacts to disk."""
+    df = pd.read_csv("Churn_Modelling.csv")
+    df = df.drop(columns=["RowNumber", "CustomerId", "Surname"])
+
+    le_gender = LabelEncoder()
+    df["Gender"] = le_gender.fit_transform(df["Gender"])
+
+    ohe_geo = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
+    geo_enc = ohe_geo.fit_transform(df[["Geography"]])
+    geo_df  = pd.DataFrame(geo_enc, columns=ohe_geo.get_feature_names_out(["Geography"]))
+    df = pd.concat([df.drop(columns=["Geography"]).reset_index(drop=True), geo_df], axis=1)
+
+    X = df.drop(columns=["Exited"])
+    y = df["Exited"]
+    X_train, _, y_train, _ = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+
+    model = MLPClassifier(
+        hidden_layer_sizes=(64, 32),
+        activation="relu",
+        solver="adam",
+        alpha=0.001,
+        batch_size=32,
+        learning_rate_init=0.001,
+        max_iter=200,
+        early_stopping=True,
+        validation_fraction=0.1,
+        n_iter_no_change=10,
+        random_state=42,
+    )
+    model.fit(X_train_scaled, y_train)
+
+    with open("model.pkl",                "wb") as f: pickle.dump(model,     f)
+    with open("scaler.pkl",               "wb") as f: pickle.dump(scaler,    f)
+    with open("label_encoder_gender.pkl", "wb") as f: pickle.dump(le_gender, f)
+    with open("onehot_encoder_geo.pkl",   "wb") as f: pickle.dump(ohe_geo,   f)
+
+
+# Auto-train on first boot if .pkl files are absent
 if not os.path.exists("model.pkl"):
-    with st.spinner("First-time setup: training the model, please wait..."):
-        subprocess.run(["python", "train.py"], check=True)
+    with st.spinner("First-time setup: training the model (~30 sec)..."):
+        train_and_save()
+    st.rerun()
 
 st.set_page_config(
     page_title="ChurnSense",
