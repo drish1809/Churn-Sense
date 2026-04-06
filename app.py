@@ -1,9 +1,3 @@
-"""
-ChurnSense — Streamlit App
-3 tabs: Predict · Compare Models · Feature Importance (SHAP)
-Auto-trains on first boot — no subprocess.
-"""
-
 import os, pickle
 import pandas as pd
 import numpy as np
@@ -173,7 +167,7 @@ hr{border-color:rgba(196,158,80,.1)!important}
 st.markdown(f"""
 <div class="topbar">
   <div class="logo">Churn<span>Sense</span></div>
-  <div class="tag">4 Models · SHAP Explainability · Imbalance-Aware</div>
+  <div class="tag">BANK CUSTOMER RETENTION ANALYSIS</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -442,6 +436,6 @@ with tab3:
 # ── Footer ──────────────────────────────────────────────────────────────────────
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown(
-    '<div class="footer">CHURNSENSE · 4 MODELS · SHAP · SCIKIT-LEARN · XGBOOST · NO TENSORFLOW</div>',
+    '<div class="footer">CHURNSENSE · BANK CUSTOMER RETENTION ANALYSIS</div>',
     unsafe_allow_html=True,
 )
