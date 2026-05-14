@@ -387,10 +387,7 @@ with tab2:
 with tab3:
     st.markdown(f"""
     <div class="imbalance-note">
-      <strong>How to read SHAP values</strong> — SHAP (SHapley Additive exPlanations) measures how much each
-      feature contributes to the model's output on average across the test set.
-      A higher bar means that feature has more influence on whether a customer churns.
-      Model: <strong>{best_name}</strong>.
+      <strong>A higher bar means that feature has more influence on whether a customer churns. Model: XGBoost.</strong>.
     </div>
     """, unsafe_allow_html=True)
 
