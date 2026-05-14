@@ -328,16 +328,6 @@ with tab1:
 # ════════════════════════════════════════════════════════════════════════════════
 # TAB 2 — MODEL COMPARISON
 # ════════════════════════════════════════════════════════════════════════════════
-with tab2:
-    st.markdown("""
-    <div class="imbalance-note">
-      <strong>Class imbalance handling</strong> — The dataset is ~80% no-churn / 20% churn.
-      Without correction, models simply predict "no churn" for everyone and get 80% accuracy while missing all churners.
-      Each model uses a different correction: <strong>Logistic Regression &amp; Random Forest</strong> use
-      <code>class_weight='balanced'</code> · <strong>XGBoost</strong> uses <code>scale_pos_weight</code> ·
-      <strong>ANN</strong> uses <code>sample_weight</code> during training.
-    </div>
-    """, unsafe_allow_html=True)
 
     metrics = ["Accuracy (%)", "AUC-ROC (%)", "Precision (%)", "Recall (%)", "F1 Score (%)"]
     header_cells = "".join(f"<th>{m}</th>" for m in metrics)
