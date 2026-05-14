@@ -387,7 +387,7 @@ with tab2:
 with tab3:
     st.markdown(f"""
     <div class="imbalance-note">
-      <strong>A higher bar means that feature has more influence on whether a customer churns. Model:{best_name}.</strong>.
+      <strong>A higher bar means that feature has more influence on whether a customer churns. Model: {best_name}.</strong>
     </div>
     """, unsafe_allow_html=True)
 
