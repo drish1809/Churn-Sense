@@ -328,7 +328,12 @@ with tab1:
 # ════════════════════════════════════════════════════════════════════════════════
 # TAB 2 — MODEL COMPARISON
 # ════════════════════════════════════════════════════════════════════════════════
-
+with tab2:
+    st.markdown("""
+    <div class="imbalance-note">
+      Comparison of Models
+    </div>
+    """, unsafe_allow_html=True)
     metrics = ["Accuracy (%)", "AUC-ROC (%)", "Precision (%)", "Recall (%)", "F1 Score (%)"]
     header_cells = "".join(f"<th>{m}</th>" for m in metrics)
 
